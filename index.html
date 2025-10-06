@@ -43,7 +43,7 @@
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
                         <h1 class="mx-auto my-0 text-uppercase">Mikko Virta</h1>
-                        <h2 class="text-white-50 mx-auto mt-2 mb-5">Portfolio</h2>
+                        <h2 class="text-white-50 mx-auto mt-2 mb-5">Luonto- ja eläinvalokuvaaja</h2>
                         <a class="btn btn-primary" href="#about">Kuka olen?</a>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
             <div class="col-lg-6 text-lg-start text-center mb-4 mb-lg-0">
                 <h2 class="mb-4">Mikko Virta - valokuvaaja</h2>
                 <p class="text-white-50">
-                    Hei! Olen Mikko Virta, luontovalokuvaaja intohimolla. Kuvaan upeita maisemia, 
+                    Hei! Olen Mikko Virta, luonto- ja eläinvalokuvaaja intohimolla. Kuvaan upeita maisemia, 
                     eläimiä ja luonnon hetkiä eri puolilla maailmaa. 
                     Kuvaan muun muassa National Geographicissa, ja tavoitteeni on 
                     vangita luonnon kauneus tavalla, joka inspiroi ja 
@@ -172,7 +172,67 @@
                     </div>
                 </div>
             </div>
-        </section>
+
+            <!-- Json osio -->
+            <div class="container px-4 px-lg-5">
+            <div class="row gx-0 justify-content-center">
+
+             <!-- Kuva -->
+            <div class="col-lg-6 mb-4 mb-lg-0">
+            <img id="natureImage" src="assets/img/zeebra.png" 
+                 alt="Luontokuva" 
+                 class="img-fluid" 
+                 style="width: 100%; height: 400px; object-fit: cover;">
+        </div>
+
+        <!-- Teksti + nappi -->
+        <div class="col-lg-6">
+            <div class="bg-black text-center h-100 project d-flex align-items-center justify-content-center">
+                <div class="project-text w-100">
+                    <!-- Nappi h4:n tilalla -->
+                    <button id="newQuoteBtn" class="btn btn-primary mb-3">Uusi kuva</button>
+                    <p class="mb-0 text-white-50">
+                        Katso ottamiani kuvia napin avulla!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</section>
+
+         <script>
+            function getNaturePhoto() {
+            const apiKey = "52637503-532673401d656c54108f66923"; //Pixabayn API-avain
+            const url = `https://pixabay.com/api/?key=${apiKey}&q=mountains+nature&image_type=photo&orientation=horizontal&per_page=50`;
+
+            fetch(url)
+            .then(response => response.json())
+            .then(data => {
+            if (data.hits && data.hits.length > 0) {
+                const randomIndex = Math.floor(Math.random() * data.hits.length);
+                const photo = data.hits[randomIndex];
+                document.getElementById("natureImage").src = photo.webformatURL;
+                document.getElementById("quote").textContent = `"${photo.tags}"`;
+                document.getElementById("author").textContent = `– ${photo.user || "Tuntematon"}`;
+            } 
+        })
+        .catch(error => {
+            document.getElementById("quote").textContent = "Virhe ladattaessa kuvaa.";
+            document.getElementById("author").textContent = "";
+            console.error("Virhe:", error);
+        });
+}
+
+        window.addEventListener("load", () => {
+        getNaturePhoto();
+        document.getElementById("newQuoteBtn").addEventListener("click", getNaturePhoto);
+});
+</script>
+
+
+</html>
 
 
         <!-- Loppu osio-->
@@ -186,7 +246,7 @@
         </section>
 
 
-
+    
 
         <!-- Ota yhteyttä-->
         <section class="contact-section bg-black">
